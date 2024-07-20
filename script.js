@@ -30,6 +30,7 @@ function getHumanChoice() {
     do {
         playerChoice = prompt("Choose one of the options: rock / paper / scissors").toLowerCase();
     } while (playerChoice !== 'rock' && playerChoice !== 'paper' && playerChoice !== 'scissors');
+
     return playerChoice;
 }
 
@@ -43,18 +44,18 @@ function playRound (computerChoice, humanChoice) {
         if (computerChoice === humanChoice) {
             computerScore += 1;
             humanScore += 1;
-            console.log(`That was a draw! Scores increment by one for each. Computer Score is now ${computerScore}. Your score is ${humanScore}.`);
+            alert(`That was a draw! Computer chose ${computerChoice}. Scores increment by one for each. Computer Score is now ${computerScore}. Your score is ${humanScore}.`);
 
         } else if (computerChoice === 'rock' && humanChoice === 'scissors' ||
                     computerChoice === 'paper' && humanChoice === 'rock' ||
                     computerChoice == 'scissors' && humanChoice === 'paper'
         ) {
             computerScore++;
-            console.log(`Computer wins. ${computerChoice} beats ${humanChoice}. Computer Score is now ${computerScore}. Your score is ${humanScore}.`);
+            alert(`Computer wins. ${computerChoice} beats ${humanChoice}. Computer Score is now ${computerScore}. Your score is ${humanScore}.`);
         }
         else {
             humanScore++;
-            console.log(`You win. Computer chose ${computerChoice}. ${humanChoice} beats ${computerChoice}. Computer Score is now ${computerScore}. Your score is ${humanScore}.`);
+            alert(`You win. Computer chose ${computerChoice}. ${humanChoice} beats ${computerChoice}. Computer Score is now ${computerScore}. Your score is ${humanScore}.`);
         }
         return (computerScore, humanScore);
     
@@ -68,7 +69,7 @@ function playGame () {
     while (count < 5) {
         const humanSelection = getHumanChoice();
         const computerSelection = getComputerChoice();
-        playRound(humanSelection, computerSelection)
+        playRound(computerSelection, humanSelection)
         count++
     }
     console.log("GAME OVER");
