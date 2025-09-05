@@ -1,91 +1,72 @@
-function getComputerChoice () {
-    const randomNumber = Math.floor(Math.random() * 3);
-    switch (randomNumber) {
+function getComputerChoice() {
+    let compChoice = Math.floor(Math.random() *3)
+
+    switch(compChoice) {
         case 0:
-            return 'rock';
+            return 'rock'
         case 1:
-            return 'paper';
+            return 'paper'
         case 2:
-            return 'scissors';
+            return 'scissors'
     }
 }
-
-
-// Using recursion(function calling itself). 
-// This should however be used judiciously because it can potentially lead to stack overflow errors
-
-// function humanChoice () {
-//     let playerChoice = prompt("Choose one of the options: rock / paper / scissors");
-//     if (playerChoice !== 'rock' && playerChoice !== 'paper' && playerChoice !== 'scissors') {
-//         return humanChoice();
-//     } else {
-//         return playerChoice;
-//     }
-// }
-// console.log(humanChoice())
-
 
 function getHumanChoice() {
-    let playerChoice;
-    do {
-        playerChoice = prompt("Choose one of the options: rock / paper / scissors").toLowerCase();
-    } while (playerChoice !== 'rock' && playerChoice !== 'paper' && playerChoice !== 'scissors');
+    let humanChoice = prompt("What is your choice? ").trim().toLowerCase()
 
-    return playerChoice;
+    while (humanChoice !== 'rock' && humanChoice !== 'paper' && humanChoice !== 'scissors') {
+        alert("Wrong choice. Please enter either 'rock' or 'paper' or 'scissors'")
+        humanChoice = prompt("What is your choice? ").trim().toLowerCase()
+    }
+    return humanChoice
 }
 
+function playRound() {
+    let comp = getComputerChoice()
+    let human = getHumanChoice()
 
-let computerScore = 0;
-let humanScore = 0;
-
-
-function playRound (computerChoice, humanChoice) {
-
-        if (computerChoice === humanChoice) {
-            computerScore += 1;
-            humanScore += 1;
-            alert(`That was a draw! Computer chose ${computerChoice}. Scores increment by one for each. Computer Score is now ${computerScore}. Your score is ${humanScore}.`);
-
-        } else if (computerChoice === 'rock' && humanChoice === 'scissors' ||
-                    computerChoice === 'paper' && humanChoice === 'rock' ||
-                    computerChoice == 'scissors' && humanChoice === 'paper'
-        ) {
-            computerScore++;
-            alert(`Computer wins. ${computerChoice} beats ${humanChoice}. Computer Score is now ${computerScore}. Your score is ${humanScore}.`);
-        }
-        else {
-            humanScore++;
-            alert(`You win. Computer chose ${computerChoice}. ${humanChoice} beats ${computerChoice}. Computer Score is now ${computerScore}. Your score is ${humanScore}.`);
-        }
-        return (computerScore, humanScore);
-    
-}
-
-
-// console.log(playRound(humanSelection, computerSelection))
-
-function playGame () {
-    let count = 0;
-    while (count < 5) {
-        const humanSelection = getHumanChoice();
-        const computerSelection = getComputerChoice();
-        playRound(computerSelection, humanSelection)
-        count++
-    }
-    console.log("GAME OVER");
-    if (computerScore === humanScore) {
-        alert("Turns out that was a Draw. Good game");
-    }
-    else if (computerScore > humanScore) {
-        alert(`Computer won by ${computerScore} to ${humanScore}`);
+    if (comp === human) {
+        return {winner: 'tie', message: `That's a tie. You chose: ${human.toUpperCase()}, Computer chose: ${comp.toUpperCase()}`};
+    } else if (
+        comp === 'rock' && human === 'paper' ||
+        comp === 'paper' && human === 'scissors' ||
+        comp === 'scissors' && human === 'rock'
+    ) {
+        return {winner: "human", message: `You win. You chose: ${human}, Computer chose: ${comp}. ${human.toUpperCase()} beats ${comp.toUpperCase()}.`}
     } else {
-        alert(`You won by ${humanScore} to ${computerScore}`);
+        return {winner: "computer", message: `Computer wins. Computer chose: ${comp}, You chose ${human}. ${comp.toUpperCase()} beats ${human.toUpperCase()}.`}
     }
 }
 
+function playGame() {
+    let humanScore = 0;
+    let compScore = 0;
 
-playGame();
+    for (let i = 0; i < 5; i++) {
+        let round = playRound()
+        console.log(round.message)
+        console.log(`Winner: ${round.winner}`)
 
+        if (round.winner === 'human'){
+            humanScore++
+        } else if (round.winner === 'comp') {
+            compScore++
+        }
+        console.log(`YOU: ${humanScore}`)
+        console.log(`COMPUTER: ${compScore}`)
+    }
 
+    console.log("==================================")
 
+    if (humanScore === compScore) {
+        console.log(`That was a tie. Computer scored --> ${compScore}. You scored ${humanScore}.`)
+    } else if (humanScore > compScore) {
+        console.log(`🎉 You won. Computer scored --> ${compScore}. You scored ${humanScore}.`)
+    } else {
+        console.log(`💻 Computer won. Computer scored --> ${compScore}. You scored ${humanScore}.`)
+    }
+
+}
+
+playGame()
 
